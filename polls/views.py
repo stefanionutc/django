@@ -3,8 +3,9 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+import timeit
 
-from .models import Question, Choice
+from .models import Question, Choice, Entry
 
 
 """
@@ -45,7 +46,7 @@ def results(request, question_id):
 """
 
 
-class  ResultsView(generic.DetailView):
+class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
     
@@ -66,4 +67,32 @@ def vote(request, question_id):
         # return httpresponseredirect after success save
         # prevent data from being posted twice if a user hit back button
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+
+class TimeitTestView(generic.DetailView):
+    template_name = 'polls/timeittest.html'
+    context_object_name = 'object_list'
+
+    def get_object(self, queryset=None):
+        start_time = timeit.default_timer()
+        query_test = Entry.objects.all()
+
+        [entry for entry in query_test]
+
+        print(query_test[0])
+        print(query_test[1])
+        print(query_test[3])
+        print(query_test[3])
+        print(query_test[3])
+        print(query_test[3])
+        print(query_test[3])
+        print(query_test[3])
+        print(query_test[3])
+        print(query_test[6])
+
+        elapsed = timeit.default_timer() - start_time
+        return "elapsed time: %f" % (elapsed * 1000)
+
+
+
 
