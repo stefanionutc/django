@@ -4,9 +4,11 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 import timeit
+import logging
 
 from .models import Question, Choice, Entry
 
+logger = logging.getLogger(__name__)
 
 """
 def index(request):
@@ -91,6 +93,9 @@ class TimeitTestView(generic.DetailView):
         print(query_test[6])
 
         elapsed = timeit.default_timer() - start_time
+
+        logger.info('Test')
+
         return "elapsed time: %f" % (elapsed * 1000)
 
 
